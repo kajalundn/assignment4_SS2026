@@ -17,6 +17,7 @@ const mealCategoryToCocktailIngredient = {
   Breakfast: "vodka",
   Goat: "whiskey",
   Vegan: "rum",
+  pasta, pasta
   // Add more if needed; otherwise default to something like 'cola'
 };
 
