@@ -34,7 +34,15 @@ function init() {
   fetchRandomMeal()
     .then((meal) => {
       displayMealData(meal);
+
+      const category = meal.strCategory
+
+      console.log("Category:", category);
+
+      const spriri = mapMealCategoryToDrinkIngredient(category);
+
       const spirit = mapMealCategoryToDrinkIngredient(meal.strCategory);
+
       return fetchCocktailByDrinkIngredient(spirit);
     })
     .then((cocktail) => {
