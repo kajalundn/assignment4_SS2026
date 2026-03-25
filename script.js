@@ -17,7 +17,7 @@ const mealCategoryToCocktailIngredient = {
   Breakfast: "vodka",
   Goat: "whiskey",
   Vegan: "rum",
-  pasta, pasta
+  pasta: "tequila",
   // Add more if needed; otherwise default to something like 'cola'
 };
 
@@ -50,7 +50,10 @@ function init() {
  Returns a Promise that resolves with the meal object
  */
 function fetchRandomMeal() {
-    // Fill in
+    const url = "https://www.themealdb.com/api/json/v1/1/random.php";
+    return fetch(url)
+    .then ((response) => response.json())
+    .then ((data) => console.log(data));
 }
 
 /*
