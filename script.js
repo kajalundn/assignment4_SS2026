@@ -36,14 +36,13 @@ function init() {
       displayMealData(meal);
 
       const category = meal.strCategory
-
       console.log("Category:", category);
 
-      const spriri = mapMealCategoryToDrinkIngredient(category);
+      const drinkIngredient = mapMealCategoryToDrinkIngredient(category);
+      console.log("Drink ingredient:", drinkIngredient);
 
-      const spirit = mapMealCategoryToDrinkIngredient(meal.strCategory);
+      return fetchCocktailByDrinkIngredient(drinkIngredient)
 
-      return fetchCocktailByDrinkIngredient(spirit);
     })
     .then((cocktail) => {
       displayCocktailData(cocktail);
