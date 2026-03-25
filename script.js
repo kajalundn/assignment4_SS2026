@@ -53,7 +53,6 @@ function fetchRandomMeal() {
     const url = "https://www.themealdb.com/api/json/v1/1/random.php";
     return fetch(url)
     .then ((response) => response.json())
-    .then ((data) => console.log(data))
     .then ((data) => data.meals[0]);
 }
 
@@ -64,7 +63,10 @@ Receives a meal object with fields like:
   strIngredientX, strMeasureX, etc.
 */
 function displayMealData(meal) {
-    // Fill in
+    const mealContainer = document.getElementById("meal-container");
+    mealContainer.innerHTML=` <h2> ${meal.strCategory} </h2> <h1>${meal.strMeal}</h1> <img src="${meal.strMealThumb}" alt="${meal.StrMeal}"> `;
+
+
 }
 
 /*
