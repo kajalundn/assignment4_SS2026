@@ -125,8 +125,37 @@ function fetchRandomCocktail() {
 Display Cocktail Data in the DOM
 */
 function displayCocktailData(cocktail) {
-    // Fill in
+    const coctailContainer = document.getElementById("cocktail-container")
+
+    let ingredientsHtml = "";
+
+    for (let i = 1; i <= 15; i++) {
+      const ingredient = cocktail[ 'strIngredient ${i}'];
+      const measure = cocktail [`strMeasure $ {i}`];
+
+      if (ingredient && ingredient.trim() !== "" ) {
+        ingredientsHtml += `<li>${ingredient}${measure ? " - " + measure : ""}</li>`;
+      }
+    }
+
+    cocktailContainer.innerHTML = `
+    <img src="${cocktail.strDrinkThumb}" alt="${cocktail.strDrink}" width="300">
+
+    <h2>${cocktail.strDrink}</h2>
+
+    <p><strong>Category:</strong> ${cocktail.strCategory || "Unknown"}</p>
+
+    <h3>Ingredients</h3>
+    <ul>
+      ${ingredientsHtml}
+    </ul>
+
+    <h3>Instructions</h3>
+    <p>${cocktail.strInstructions || "No instructions available."}</p>
+  `;
 }
+
+
 
 /*
 Call init() when the page loads
