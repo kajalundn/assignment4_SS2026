@@ -17,7 +17,6 @@ const mealCategoryToCocktailIngredient = {
   Breakfast: "vodka",
   Goat: "whiskey",
   Vegan: "rum",
-  pasta: "tequila",
   // Add more if needed; otherwise default to something like 'cola'
 };
 
@@ -61,7 +60,11 @@ function fetchRandomMeal() {
     return fetch(url)
     .then ((response) => response.json())
     .then ((data) => data.meals[0]);
-}
+    console.log("Meal JSON:", data);
+      return data.meals[0];
+    });
+
+
 
 /*
 Display Meal Data in the DOM
@@ -93,10 +96,10 @@ Don't forget encodeURIComponent()
 If no cocktails found, fetch random
 */
 function fetchCocktailByDrinkIngredient(drinkIngredient) {
-    const url = `https://www.thecocktaildb.com/api/json/v1/1/search.php`;
+  const url = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${encodeURIComponent(drinkIngredient)}`;
 
     return fetch(url)
-    .then((response) => response.json)()
+    .then((response) => response.json())
     .then((data) => {
       console.log("Coctail searcg:", data);
     
@@ -130,8 +133,9 @@ function displayCocktailData(cocktail) {
     let ingredientsHtml = "";
 
     for (let i = 1; i <= 15; i++) {
-      const ingredient = cocktail[ 'strIngredient ${i}'];
-      const measure = cocktail [`strMeasure $ {i}`];
+      const ingredient = cocktail[`strIngredient${i}`];
+      const measure = cocktail[`strMeasure${i}`];
+
 
       if (ingredient && ingredient.trim() !== "" ) {
         ingredientsHtml += `<li>${ingredient}${measure ? " - " + measure : ""}</li>`;
