@@ -59,11 +59,11 @@ function fetchRandomMeal() {
     const url = "https://www.themealdb.com/api/json/v1/1/random.php";
     return fetch(url)
     .then ((response) => response.json())
-    .then ((data) => data.meals[0]);
+    .then((data) => {
     console.log("Meal JSON:", data);
       return data.meals[0];
     });
-
+  }
 
 
 /*
