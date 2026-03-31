@@ -59,10 +59,7 @@ function fetchRandomMeal() {
     const url = "https://www.themealdb.com/api/json/v1/1/random.php";
     return fetch(url)
     .then ((response) => response.json())
-    .then((data) => {
-    console.log("Meal JSON:", data);
-      return data.meals[0];
-    });
+    .then((data) => data.meals[0]);
   }
 
 
@@ -72,11 +69,31 @@ Receives a meal object with fields like:
   strMeal, strMealThumb, strCategory, strInstructions,
   strIngredientX, strMeasureX, etc.
 */
+function ingredientCheck(meal) {
+  const ingredients = [];
+  for (let i = 1; i <= 20; i++) {
+    const ingredient = meal[`strIngredient${i}`];
+    const measure = meal[`strMeasure${i}`];
+    if (ingredient) {
+      ingredients.push(`${measure ? measure.trim() : ""} ${ingredient.trim()}`);
+    }
+  }
+  return ingredients;
+}
+
 function displayMealData(meal) {
     const mealContainer = document.getElementById("meal-container");
-    mealContainer.innerHTML=` <h2> ${meal.strCategory} </h2> <h1>${meal.strMeal}</h1> <img src="${meal.strMealThumb}" alt="${meal.StrMeal}"> `;
-
-
+    mealContainer.innerHTML=`
+    <h2> ${meal.strCategory} </h2>
+    <h1>${meal.strMeal}</h1>
+    <img src="${meal.strMealThumb}" alt="${meal.StrMeal}" height="300" width="300" object-fit="cover"> 
+    <h3>Ingredients:</h3>
+    <ul>
+      ${ingredientCheck(meal).map(ingredient => `<li>${ingredient}</li>`).join("")}
+    </ul>
+    <h3>Instructions:</h3>
+    <p>${meal.strInstructions}</p>
+    `;
 }
 
 /*
@@ -96,13 +113,11 @@ Don't forget encodeURIComponent()
 If no cocktails found, fetch random
 */
 function fetchCocktailByDrinkIngredient(drinkIngredient) {
-  const url = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${encodeURIComponent(drinkIngredient)}`;
+    const url = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${encodeURIComponent(drinkIngredient)}`;
 
     return fetch(url)
     .then((response) => response.json())
     .then((data) => {
-      console.log("Coctail searcg:", data);
-    
       if (data.drinks && data.drinks.length > 0 ) {
         return data.drinks[0];
       } else {
@@ -118,9 +133,7 @@ Returns a Promise that resolves to cocktail object
 function fetchRandomCocktail() {
     return fetch("https://www.thecocktaildb.com/api/json/v1/1/random.php")
     .then((response) => response.json())
-    .then((data) => {
-      return data.drinks[0];
-    });
+    .then((data) => data.drinks[0]);
 }
 
 
@@ -128,32 +141,16 @@ function fetchRandomCocktail() {
 Display Cocktail Data in the DOM
 */
 function displayCocktailData(cocktail) {
-    const coctailContainer = document.getElementById("cocktail-container")
-
-    let ingredientsHtml = "";
-
-    for (let i = 1; i <= 15; i++) {
-      const ingredient = cocktail[`strIngredient${i}`];
-      const measure = cocktail[`strMeasure${i}`];
-
-
-      if (ingredient && ingredient.trim() !== "" ) {
-        ingredientsHtml += `<li>${ingredient}${measure ? " - " + measure : ""}</li>`;
-      }
-    }
+    const cocktailContainer = document.getElementById("cocktail-container")
 
     cocktailContainer.innerHTML = `
-    <img src="${cocktail.strDrinkThumb}" alt="${cocktail.strDrink}" width="300">
-
-    <h2>${cocktail.strDrink}</h2>
-
-    <p><strong>Category:</strong> ${cocktail.strCategory || "Unknown"}</p>
-
+    <h2>${cocktail.strCategory || "Unknown"}</h2>
+    <h1>${cocktail.strDrink}</h1>
+    <img src="${cocktail.strDrinkThumb}" alt="${cocktail.strDrink}" height="300" width="300" object-fit="cover">
     <h3>Ingredients</h3>
     <ul>
-      ${ingredientsHtml}
+      ${ingredientCheck(cocktail).map(ingredient => `<li>${ingredient}</li>`).join("")}
     </ul>
-
     <h3>Instructions</h3>
     <p>${cocktail.strInstructions || "No instructions available."}</p>
   `;
